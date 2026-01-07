@@ -13,6 +13,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useCart } from "@/app/context/CartContext";
 import { useRouter, useSearchParams } from "next/navigation";
+import SearchInput from "@/app/searchInput/SearchInput";
 
 const categories = [
   { name: "Electronics", slug: "electronics" },
@@ -66,20 +67,7 @@ export default function Navbar() {
               </Link>
 
               <div className="hidden sm:flex flex-1 max-w-md mx-8">
-                <div className="relative w-full">
-                  <MagnifyingGlassIcon className="absolute left-3 top-2.5 h-5 w-5 text-black-400" />
-                  <input
-                    type="search"
-                    placeholder="Search products"
-                    defaultValue={currentSearch}
-                    onChange={(e) =>
-                      router.push(
-                        `/products?q=${encodeURIComponent(e.target.value)}`
-                      )
-                    }
-                    className="w-full rounded-md border border-gray-300 py-2 pl-10 text-sm focus:ring-blue-500 focus:border-blue-500 text-gray-500"
-                  />
-                </div>
+                <SearchInput/>
               </div>
 
               <div className="hidden sm:flex items-center space-x-6 text-black">

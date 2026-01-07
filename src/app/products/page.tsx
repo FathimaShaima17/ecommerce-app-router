@@ -1,11 +1,10 @@
 'use client';
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import ProductCard from "@/app/component/productCard/ProductCard";
 import { getAllProducts } from "@/app/services/product-Service";
 
-
-export default function ProductsPage() {
+function ProductsList() {
   const searchParams = useSearchParams();
   const search = searchParams.get("q") || "";
 
@@ -23,12 +22,20 @@ export default function ProductsPage() {
   if (loading) return <p>Loading...</p>;
 
   return (
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+      {filteredProducts.map(p => (
+        <ProductCard key={p.id} product={p} />
+      ))}
+    </div>
+  );
+}
+
+export default function ProductsPage() {
+  return (
     <div className="p-6">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-        {filteredProducts.map(p => (
-          <ProductCard key={p.id} product={p} />
-        ))}
-      </div>
+      <Suspense fallback={<p>Loading products...</p>}>
+        <ProductsList />
+      </Suspense>
     </div>
   );
 }

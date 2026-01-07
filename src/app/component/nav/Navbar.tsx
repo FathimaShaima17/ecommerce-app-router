@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { Suspense } from "react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Disclosure } from "@headlessui/react";
@@ -7,7 +7,6 @@ import {
   Bars3Icon,
   XMarkIcon,
   BellIcon,
-  MagnifyingGlassIcon,
   ShoppingCartIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
@@ -22,16 +21,13 @@ const categories = [
   { name: "Jewelery", slug: "jewelery" },
 ];
 
-export default function Navbar() {
+function NavbarContent() {
   const { cart } = useCart();
-
   const [email, setEmail] = useState<string | null>(null);
-
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentSearch = searchParams.get("q") || "";
 
-  // email from localStorae
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedEmail = localStorage.getItem("email");
@@ -61,13 +57,12 @@ export default function Navbar() {
                 </Disclosure.Button>
               </div>
 
-              {/* Logo */}
               <Link href="/" className="text-xl font-bold text-gray-900">
                 Buy<span className="text-blue-500">Nest</span>
               </Link>
 
               <div className="hidden sm:flex flex-1 max-w-md mx-8">
-                <SearchInput/>
+                <SearchInput />
               </div>
 
               <div className="hidden sm:flex items-center space-x-6 text-black">
@@ -177,5 +172,13 @@ export default function Navbar() {
         </>
       )}
     </Disclosure>
+  );
+}
+
+export default function Navbar() {
+  return (
+    <Suspense fallback={<div className="h-16 bg-white shadow"></div>}>
+      <NavbarContent />
+    </Suspense>
   );
 }

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "./component/nav/Navbar";
 import { CartProvider } from "./context/CartContext";
 import Footer from "./component/footer/Footer";
 import ClientNavbarWrapper from "./clientwrapper/ClientNavbarWrapper";
